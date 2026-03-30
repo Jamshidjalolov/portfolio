@@ -1,0 +1,78 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="48" fill="#060913"/>
+  <rect x="18" y="18" width="1164" height="594" rx="34" fill="url(#bg)"/>
+  <circle cx="924" cy="132" r="154" fill="#D946EF" fill-opacity="0.15"/>
+  <circle cx="248" cy="528" r="140" fill="#22D3EE" fill-opacity="0.12"/>
+  <circle cx="1050" cy="490" r="108" fill="#60A5FA" fill-opacity="0.1"/>
+
+  <g filter="url(#softGlow)">
+    <path
+      d="M238 154L347.119 217V343L238 406L128.881 343V217L238 154Z"
+      stroke="url(#frame)"
+      stroke-width="12"
+      stroke-linejoin="round"
+    />
+  </g>
+  <path
+    d="M298 193H211L177 245H240V333C240 352 224 368 205 368C188 368 174 360 164 346L138 367C156 391 180 404 208 404C256.799 404 298 362.934 298 314V193Z"
+    fill="url(#markFill)"
+  />
+  <path d="M190 287L136 334L176 359L240 299L190 287Z" fill="url(#tailFill)"/>
+
+  <text x="418" y="286" fill="url(#titleFill)" font-family="Arial, sans-serif" font-size="108" font-weight="900" letter-spacing="2">
+    JAMSHID
+  </text>
+  <path d="M420 336H560" stroke="url(#lineFill)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M842 336H980" stroke="url(#lineFill)" stroke-width="6" stroke-linecap="round"/>
+  <text x="592" y="352" fill="#F8FAFC" font-family="Arial, sans-serif" font-size="60" font-weight="800" letter-spacing="12">
+    JALOLOV
+  </text>
+
+  <text x="420" y="420" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="30" font-weight="700">
+    Frontend &amp; Backend Developer
+  </text>
+  <text x="420" y="466" fill="#8BCFE3" font-family="Arial, sans-serif" font-size="26">
+    Premium portfolio, responsive interfaces, and product-focused web experiences.
+  </text>
+
+  <rect x="420" y="506" width="240" height="54" rx="27" fill="#0B1526" stroke="#24344D"/>
+  <text x="452" y="541" fill="#CFFAFE" font-family="Arial, sans-serif" font-size="22" font-weight="700">jamshidjalolov.dev</text>
+
+  <defs>
+    <linearGradient id="bg" x1="84" y1="70" x2="1106" y2="570" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A1020"/>
+      <stop offset="0.52" stop-color="#0B1324"/>
+      <stop offset="1" stop-color="#09111F"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="140" y1="178" x2="354" y2="394" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67E8F9"/>
+      <stop offset="0.46" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#D946EF"/>
+    </linearGradient>
+    <linearGradient id="markFill" x1="154" y1="196" x2="312" y2="398" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#BAF7FF"/>
+      <stop offset="0.34" stop-color="#60A5FA"/>
+      <stop offset="0.72" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="tailFill" x1="138" y1="292" x2="244" y2="364" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="titleFill" x1="446" y1="196" x2="986" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#BAF7FF"/>
+      <stop offset="0.3" stop-color="#60A5FA"/>
+      <stop offset="0.72" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#E879F9"/>
+    </linearGradient>
+    <linearGradient id="lineFill" x1="420" y1="336" x2="980" y2="336" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67E8F9"/>
+      <stop offset="1" stop-color="#D946EF"/>
+    </linearGradient>
+    <filter id="softGlow" x="112.881" y="138" width="250.238" height="284" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feGaussianBlur stdDeviation="6" result="effect1_foregroundBlur"/>
+    </filter>
+  </defs>
+</svg>

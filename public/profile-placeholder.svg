@@ -1,0 +1,20 @@
+<svg width="800" height="920" viewBox="0 0 800 920" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="920" rx="56" fill="#08111F"/>
+  <rect x="24" y="24" width="752" height="872" rx="40" fill="url(#bg)"/>
+  <circle cx="400" cy="292" r="132" fill="url(#glow)"/>
+  <circle cx="400" cy="300" r="98" fill="#0E172A"/>
+  <path d="M234 704C234 606.798 312.798 528 410 528H390C487.202 528 566 606.798 566 704V736H234V704Z" fill="#0E172A"/>
+  <rect x="154" y="760" width="492" height="2" rx="1" fill="#FFFFFF24"/>
+  <text x="400" y="820" fill="#E2E8F0" font-size="26" font-family="Arial, sans-serif" text-anchor="middle">Jamshid Jalolov</text>
+  <text x="400" y="856" fill="#67E8F9" font-size="16" font-family="Arial, sans-serif" text-anchor="middle">Frontend &amp; Backend</text>
+  <defs>
+    <linearGradient id="bg" x1="80" y1="72" x2="686" y2="864" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F1B30"/>
+      <stop offset="1" stop-color="#09101E"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(400 292) rotate(90) scale(176)">
+      <stop stop-color="#67E8F9" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#67E8F9" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

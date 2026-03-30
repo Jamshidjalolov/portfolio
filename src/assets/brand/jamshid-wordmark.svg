@@ -1,0 +1,58 @@
+<svg width="960" height="280" viewBox="0 0 960 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="280" rx="48" fill="#060913"/>
+  <circle cx="696" cy="84" r="120" fill="#D946EF" fill-opacity="0.14"/>
+  <circle cx="286" cy="212" r="116" fill="#22D3EE" fill-opacity="0.12"/>
+  <g filter="url(#softGlow)">
+    <path
+      d="M142 40L204.354 76V148L142 184L79.6462 148V76L142 40Z"
+      stroke="url(#frame)"
+      stroke-width="8"
+      stroke-linejoin="round"
+    />
+  </g>
+  <path
+    d="M176 62H126L107 92H143V142C143 153 134 162 123 162C113 162 105 157 99 149L84 161C95 174 108 181 124 181C152 181 176 158 176 129V62Z"
+    fill="url(#markFill)"
+  />
+  <path d="M114 116L82 144L105 159L142 123L114 116Z" fill="url(#tailFill)" />
+  <text x="256" y="154" fill="url(#titleFill)" font-family="Arial, sans-serif" font-size="108" font-weight="900" letter-spacing="2">
+    JAMSHID
+  </text>
+  <path d="M258 202H364" stroke="url(#lineFill)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M686 202H792" stroke="url(#lineFill)" stroke-width="6" stroke-linecap="round"/>
+  <text x="398" y="216" fill="#F8FAFC" font-family="Arial, sans-serif" font-size="58" font-weight="800" letter-spacing="14">
+    JALOLOV
+  </text>
+  <defs>
+    <linearGradient id="frame" x1="86" y1="58" x2="208" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67E8F9"/>
+      <stop offset="0.46" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#D946EF"/>
+    </linearGradient>
+    <linearGradient id="markFill" x1="94" y1="62" x2="184" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#BAF7FF"/>
+      <stop offset="0.34" stop-color="#60A5FA"/>
+      <stop offset="0.72" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="tailFill" x1="84" y1="120" x2="144" y2="162" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="titleFill" x1="282" y1="72" x2="754" y2="170" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#BAF7FF"/>
+      <stop offset="0.3" stop-color="#60A5FA"/>
+      <stop offset="0.72" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#E879F9"/>
+    </linearGradient>
+    <linearGradient id="lineFill" x1="258" y1="199" x2="792" y2="199" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67E8F9"/>
+      <stop offset="1" stop-color="#D946EF"/>
+    </linearGradient>
+    <filter id="softGlow" x="67.6465" y="28" width="148.707" height="168" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feGaussianBlur stdDeviation="4" result="effect1_foregroundBlur"/>
+    </filter>
+  </defs>
+</svg>
