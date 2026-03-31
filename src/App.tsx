@@ -10,13 +10,31 @@ import ContactSection from './sections/ContactSection';
 import HeroSection from './sections/HeroSection';
 import ProjectsSection from './sections/ProjectsSection';
 import SkillsSection from './sections/SkillsSection';
+import ResumePage from './pages/ResumePage';
 import { Locale } from './types';
 
 const sectionIds = ['home', 'about', 'skills', 'projects', 'contact'];
+const emptySectionIds: string[] = [];
 const localeStorageKey = 'portfolio-locale';
 
+function resolveRoute(pathname: string) {
+  const normalizedPath = pathname.replace(/\/+$/, '') || '/';
+
+  return normalizedPath === '/resume' ? 'resume' : 'portfolio';
+}
+
+function updateMetaContent(selector: string, content: string) {
+  const element = document.querySelector<HTMLMetaElement>(selector);
+
+  if (element) {
+    element.content = content;
+  }
+}
+
 function App() {
-  const activeSection = useActiveSection(sectionIds);
+  const route = resolveRoute(window.location.pathname);
+  const isResumePage = route === 'resume';
+  const activeSection = useActiveSection(isResumePage ? emptySectionIds : sectionIds);
   const [locale, setLocale] = useState<Locale>('uz');
   const [loading, setLoading] = useState(true);
 
@@ -41,6 +59,28 @@ function App() {
     return () => window.clearTimeout(timeoutId);
   }, []);
 
+  useEffect(() => {
+    const title = isResumePage
+      ? 'Jalolov Jamshid | Resume'
+      : locale === 'uz'
+        ? 'Jalolov Jamshid | Premium Portfolio'
+        : 'Jalolov Jamshid | Premium Portfolio';
+    const description = isResumePage
+      ? locale === 'uz'
+        ? "Jalolov Jamshidning premium resume sahifasi. Frontend, backend, React, TypeScript, FastAPI va PostgreSQL yo'nalishidagi tajriba, ko'nikmalar va loyihalar."
+        : 'Premium resume page for Jalolov Jamshid covering frontend, backend, React, TypeScript, FastAPI, and PostgreSQL.'
+      : locale === 'uz'
+        ? "Jalolov Jamshidning portfolio sayti. Frontend va backend yo'nalishida zamonaviy, responsiv va mahsulotga yo'naltirilgan web tajribalar."
+        : 'Portfolio website of Jalolov Jamshid, a frontend and backend developer building modern, responsive, product-focused web experiences.';
+
+    document.title = title;
+    updateMetaContent('meta[name="description"]', description);
+    updateMetaContent('meta[property="og:title"]', title);
+    updateMetaContent('meta[property="og:description"]', description);
+    updateMetaContent('meta[name="twitter:title"]', title);
+    updateMetaContent('meta[name="twitter:description"]', description);
+  }, [isResumePage, locale]);
+
   const handleLocaleChange = (nextLocale: Locale) => {
     startTransition(() => {
       setLocale(nextLocale);
@@ -49,8 +89,10 @@ function App() {
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-night text-white">
-      <ScrollProgress />
-      <PageLoader loading={loading} locale={locale} />
+      <div className="print-hide">
+        <ScrollProgress />
+        <PageLoader loading={loading} locale={locale} />
+      </div>
 
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <motion.div
@@ -75,17 +117,25 @@ function App() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(103,232,249,0.08),transparent_34%),radial-gradient(circle_at_85%_18%,rgba(245,183,95,0.08),transparent_22%)]" />
       </div>
 
-      <Navbar activeSection={activeSection} locale={locale} onLocaleChange={handleLocaleChange} />
+      <div className="print-hide">
+        <Navbar activeSection={activeSection} isResumePage={isResumePage} locale={locale} onLocaleChange={handleLocaleChange} />
+      </div>
 
-      <main>
-        <HeroSection locale={locale} />
-        <AboutSection locale={locale} />
-        <SkillsSection locale={locale} />
-        <ProjectsSection locale={locale} />
-        <ContactSection locale={locale} />
-      </main>
+      {isResumePage ? (
+        <ResumePage locale={locale} />
+      ) : (
+        <>
+          <main>
+            <HeroSection locale={locale} />
+            <AboutSection locale={locale} />
+            <SkillsSection locale={locale} />
+            <ProjectsSection locale={locale} />
+            <ContactSection locale={locale} />
+          </main>
 
-      <Footer locale={locale} />
+          <Footer locale={locale} />
+        </>
+      )}
     </div>
   );
 }

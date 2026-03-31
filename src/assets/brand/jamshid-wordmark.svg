@@ -16,12 +16,12 @@
   />
   <path d="M114 116L82 144L105 159L142 123L114 116Z" fill="url(#tailFill)" />
   <text x="256" y="154" fill="url(#titleFill)" font-family="Arial, sans-serif" font-size="108" font-weight="900" letter-spacing="2">
-    JAMSHID
+    JALOLOV
   </text>
   <path d="M258 202H364" stroke="url(#lineFill)" stroke-width="6" stroke-linecap="round"/>
   <path d="M686 202H792" stroke="url(#lineFill)" stroke-width="6" stroke-linecap="round"/>
   <text x="398" y="216" fill="#F8FAFC" font-family="Arial, sans-serif" font-size="58" font-weight="800" letter-spacing="14">
-    JALOLOV
+    JAMSHID
   </text>
   <defs>
     <linearGradient id="frame" x1="86" y1="58" x2="208" y2="180" gradientUnits="userSpaceOnUse">

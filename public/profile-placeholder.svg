@@ -5,7 +5,7 @@
   <circle cx="400" cy="300" r="98" fill="#0E172A"/>
   <path d="M234 704C234 606.798 312.798 528 410 528H390C487.202 528 566 606.798 566 704V736H234V704Z" fill="#0E172A"/>
   <rect x="154" y="760" width="492" height="2" rx="1" fill="#FFFFFF24"/>
-  <text x="400" y="820" fill="#E2E8F0" font-size="26" font-family="Arial, sans-serif" text-anchor="middle">Jamshid Jalolov</text>
+  <text x="400" y="820" fill="#E2E8F0" font-size="26" font-family="Arial, sans-serif" text-anchor="middle">Jalolov Jamshid</text>
   <text x="400" y="856" fill="#67E8F9" font-size="16" font-family="Arial, sans-serif" text-anchor="middle">Frontend &amp; Backend</text>
   <defs>
     <linearGradient id="bg" x1="80" y1="72" x2="686" y2="864" gradientUnits="userSpaceOnUse">

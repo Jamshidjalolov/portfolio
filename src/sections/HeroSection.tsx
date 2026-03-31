@@ -73,11 +73,14 @@ function HeroSection({ locale }: HeroSectionProps) {
                 </div>
               </div>
 
-              <div className="mt-8 flex flex-col gap-3 min-[430px]:flex-row min-[430px]:justify-center xl:justify-start">
+              <div className="mt-8 flex flex-wrap gap-3 min-[430px]:justify-center xl:justify-start">
                 <Button className="w-full justify-center min-[430px]:w-auto" href="#projects" showArrow>
                   {content.hero.primaryCta}
                 </Button>
-                <Button className="w-full justify-center min-[430px]:w-auto" href="#contact" variant="secondary">
+                <Button className="w-full justify-center min-[430px]:w-auto" href="/resume" variant="secondary">
+                  {content.labels.resumeCta}
+                </Button>
+                <Button className="w-full justify-center min-[430px]:w-auto" href="#contact" variant="ghost">
                   {content.hero.secondaryCta}
                 </Button>
               </div>

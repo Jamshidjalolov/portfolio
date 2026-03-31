@@ -265,6 +265,101 @@ body::after {
   }
 }
 
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body::before,
+  body::after,
+  .resume-decor,
+  .print-hide {
+    display: none !important;
+  }
+
+  .resume-page {
+    padding: 0 !important;
+    color: #0f172a !important;
+  }
+
+  .resume-page section,
+  .resume-page article,
+  .resume-print-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .resume-page .panel,
+  .resume-page .panel-soft,
+  .resume-page .resume-print-card,
+  .resume-page .eyebrow,
+  .resume-page .input-field {
+    background: #ffffff !important;
+    border-color: #dbe3f0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .resume-page .eyebrow {
+    color: #0f172a !important;
+  }
+
+  .resume-page .text-gradient,
+  .resume-page .text-hover-accent,
+  .resume-page .text-hover-soft,
+  .resume-page h1,
+  .resume-page h2,
+  .resume-page h3 {
+    color: #0f172a !important;
+    background: none !important;
+    -webkit-text-fill-color: currentColor !important;
+    text-shadow: none !important;
+    transform: none !important;
+  }
+
+  .resume-page p,
+  .resume-page li,
+  .resume-page span,
+  .resume-page div {
+    color: inherit;
+  }
+
+  .resume-page .text-slate-400,
+  .resume-page .text-slate-300,
+  .resume-page .text-slate-200,
+  .resume-page .text-cyan-100\/80 {
+    color: #475569 !important;
+  }
+
+  .resume-page .text-white {
+    color: #0f172a !important;
+  }
+
+  .resume-page a {
+    color: #0f172a !important;
+    text-decoration: none !important;
+  }
+
+  .resume-contact-grid,
+  .resume-project-grid,
+  .resume-skill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .resume-footer {
+    padding-bottom: 0 !important;
+  }
+}
+
 @keyframes shimmer {
   from {
     transform: translateX(-100%);

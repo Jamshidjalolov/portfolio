@@ -113,11 +113,12 @@ type PortfolioLocaleContent = {
   footer: FooterContent;
   labels: {
     contactCta: string;
+    resumeCta: string;
   };
 };
 
 const identity = {
-  name: 'Jamshid Jalolov',
+  name: 'Jalolov Jamshid',
   email: 'jamshidjalolov6767@gmail.com',
   telegram: 'https://t.me/JaLoLoV_005',
   phone: '+998942884884',
@@ -385,6 +386,7 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
     },
     labels: {
       contactCta: "Bog'lanish",
+      resumeCta: 'Resume',
     },
   },
   en: {
@@ -637,6 +639,7 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
     },
     labels: {
       contactCta: 'Contact',
+      resumeCta: 'Resume',
     },
   },
 };

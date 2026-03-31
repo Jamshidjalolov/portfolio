@@ -7,6 +7,7 @@ type CommonProps = {
   variant?: 'primary' | 'secondary' | 'ghost';
   size?: 'sm' | 'md';
   showArrow?: boolean;
+  disabled?: boolean;
 };
 
 type AnchorButtonProps = CommonProps & {
@@ -20,7 +21,12 @@ type NativeButtonProps = CommonProps & {
   onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-function getButtonClasses(variant: CommonProps['variant'], size: CommonProps['size'], className: string) {
+function getButtonClasses(
+  variant: CommonProps['variant'],
+  size: CommonProps['size'],
+  className: string,
+  disabled: boolean,
+) {
   const base =
     'group relative inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap overflow-hidden rounded-full border font-semibold tracking-[0.01em] transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70';
   const variants = {
@@ -34,8 +40,9 @@ function getButtonClasses(variant: CommonProps['variant'], size: CommonProps['si
     sm: 'px-4 py-2.5 text-sm',
     md: 'px-5 py-3 text-sm sm:text-[0.95rem]',
   };
+  const disabledState = disabled ? 'cursor-not-allowed opacity-70 hover:translate-y-0' : '';
 
-  return `${base} ${variants[variant ?? 'primary']} ${sizes[size ?? 'md']} ${className}`;
+  return `${base} ${variants[variant ?? 'primary']} ${sizes[size ?? 'md']} ${disabledState} ${className}`;
 }
 
 function Button(props: AnchorButtonProps | NativeButtonProps) {
@@ -45,17 +52,26 @@ function Button(props: AnchorButtonProps | NativeButtonProps) {
     variant = 'primary',
     size = 'md',
     showArrow = false,
+    disabled = false,
   } = props;
 
   const content = (
     <>
       <span className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
         <span className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_65%)]" />
-        <span className="absolute inset-0 -translate-x-[130%] bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.18),transparent)] transition duration-700 group-hover:translate-x-[130%]" />
+        <span
+          className={`absolute inset-0 -translate-x-[130%] bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.18),transparent)] transition duration-700 ${
+            disabled ? '' : 'group-hover:translate-x-[130%]'
+          }`}
+        />
       </span>
       <span className="relative z-10">{children}</span>
       {showArrow ? (
-        <ArrowUpRight className="relative z-10 h-4 w-4 transition duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        <ArrowUpRight
+          className={`relative z-10 h-4 w-4 transition duration-300 ${
+            disabled ? '' : 'group-hover:translate-x-0.5 group-hover:-translate-y-0.5'
+          }`}
+        />
       ) : null}
     </>
   );
@@ -65,9 +81,10 @@ function Button(props: AnchorButtonProps | NativeButtonProps) {
 
     return (
       <a
-        className={getButtonClasses(variant, size, className)}
+        aria-disabled={disabled}
+        className={getButtonClasses(variant, size, className, disabled)}
         href={props.href}
-        onClick={props.onClick}
+        onClick={disabled ? undefined : props.onClick}
         rel={external ? 'noreferrer' : undefined}
         target={external ? '_blank' : undefined}
       >
@@ -80,7 +97,8 @@ function Button(props: AnchorButtonProps | NativeButtonProps) {
 
   return (
     <button
-      className={getButtonClasses(variant, size, className)}
+      className={getButtonClasses(variant, size, className, disabled)}
+      disabled={disabled}
       onClick={buttonProps.onClick}
       type={buttonProps.type ?? 'button'}
     >

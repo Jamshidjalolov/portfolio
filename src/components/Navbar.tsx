@@ -12,12 +12,16 @@ type NavbarProps = {
   activeSection: string;
   locale: Locale;
   onLocaleChange: (locale: Locale) => void;
+  isResumePage?: boolean;
 };
 
-function Navbar({ activeSection, locale, onLocaleChange }: NavbarProps) {
+function Navbar({ activeSection, locale, onLocaleChange, isResumePage = false }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const content = portfolioContent[locale];
+  const contactHref = isResumePage ? '/#contact' : '#contact';
+  const homeHref = isResumePage ? '/#home' : '#home';
+  const getSectionHref = (href: string) => (isResumePage ? `/${href}` : href);
 
   useEffect(() => {
     const onScroll = () => {
@@ -32,7 +36,7 @@ function Navbar({ activeSection, locale, onLocaleChange }: NavbarProps) {
 
   useEffect(() => {
     setIsOpen(false);
-  }, [activeSection, locale]);
+  }, [activeSection, locale, isResumePage]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-2.5 pt-3 sm:px-5 sm:pt-4">
@@ -44,7 +48,7 @@ function Navbar({ activeSection, locale, onLocaleChange }: NavbarProps) {
         }`}
       >
         <div className="flex h-[66px] items-center justify-between gap-2 sm:h-[74px] sm:gap-3">
-          <a className="flex items-center gap-2 sm:gap-3" href="#home">
+          <a className="flex items-center gap-2 sm:gap-3" href={homeHref}>
             <BrandLogo className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" variant="mark" />
             <div className="hidden min-[430px]:block">
               <BrandLogo className="h-8 w-auto sm:h-10" />
@@ -56,7 +60,7 @@ function Navbar({ activeSection, locale, onLocaleChange }: NavbarProps) {
 
           <nav className="hidden items-center gap-2 lg:flex">
             {content.navigation.map((item) => {
-              const isActive = item.href === `#${activeSection}`;
+              const isActive = !isResumePage && item.href === `#${activeSection}`;
 
               return (
                 <a
@@ -65,18 +69,28 @@ function Navbar({ activeSection, locale, onLocaleChange }: NavbarProps) {
                       ? 'border-cyan-300/20 bg-white/[0.08] text-white shadow-[0_14px_28px_rgba(4,8,22,0.24)]'
                       : 'border-transparent text-slate-300 hover:border-white/10 hover:bg-white/[0.06]'
                   }`}
-                  href={item.href}
+                  href={getSectionHref(item.href)}
                   key={item.href}
                 >
                   <span className={`text-hover-accent ${isActive ? 'is-active' : ''}`}>{item.label}</span>
                 </a>
               );
             })}
+            <a
+              className={`group rounded-full border px-4 py-2 text-sm font-medium transition duration-300 ${
+                isResumePage
+                  ? 'border-cyan-300/20 bg-white/[0.08] text-white shadow-[0_14px_28px_rgba(4,8,22,0.24)]'
+                  : 'border-transparent text-slate-300 hover:border-white/10 hover:bg-white/[0.06]'
+              }`}
+              href="/resume"
+            >
+              <span className={`text-hover-accent ${isResumePage ? 'is-active' : ''}`}>{content.labels.resumeCta}</span>
+            </a>
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
             <LanguageSwitch locale={locale} onChange={onLocaleChange} />
-            <Button href="#contact" showArrow size="sm">
+            <Button href={contactHref} showArrow size="sm">
               {content.labels.contactCta}
             </Button>
           </div>
@@ -105,7 +119,7 @@ function Navbar({ activeSection, locale, onLocaleChange }: NavbarProps) {
             >
               <nav className="flex flex-col gap-2 py-3 sm:py-4">
                 {content.navigation.map((item) => {
-                  const isActive = item.href === `#${activeSection}`;
+                  const isActive = !isResumePage && item.href === `#${activeSection}`;
 
                   return (
                     <a
@@ -114,14 +128,24 @@ function Navbar({ activeSection, locale, onLocaleChange }: NavbarProps) {
                           ? 'border-cyan-300/20 bg-white/[0.08] text-white shadow-[0_14px_28px_rgba(4,8,22,0.24)]'
                           : 'border-transparent text-slate-300 hover:border-white/10 hover:bg-white/[0.06]'
                       }`}
-                      href={item.href}
+                      href={getSectionHref(item.href)}
                       key={item.href}
                     >
                       <span className={`text-hover-accent ${isActive ? 'is-active' : ''}`}>{item.label}</span>
                     </a>
                   );
                 })}
-                <Button className="mt-2 w-full" href="#contact" showArrow>
+                <a
+                  className={`group rounded-2xl border px-4 py-3 text-sm font-medium transition duration-300 ${
+                    isResumePage
+                      ? 'border-cyan-300/20 bg-white/[0.08] text-white shadow-[0_14px_28px_rgba(4,8,22,0.24)]'
+                      : 'border-transparent text-slate-300 hover:border-white/10 hover:bg-white/[0.06]'
+                  }`}
+                  href="/resume"
+                >
+                  <span className={`text-hover-accent ${isResumePage ? 'is-active' : ''}`}>{content.labels.resumeCta}</span>
+                </a>
+                <Button className="mt-2 w-full" href={contactHref} showArrow>
                   {content.labels.contactCta}
                 </Button>
               </nav>

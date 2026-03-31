@@ -34,6 +34,12 @@ function Footer({ locale }: FooterProps) {
                     <span className="text-hover-accent">{item.label}</span>
                   </a>
                 ))}
+                <a
+                  className="group rounded-full border border-transparent px-3 py-1.5 transition duration-300 hover:border-white/10 hover:bg-white/[0.06]"
+                  href="/resume"
+                >
+                  <span className="text-hover-accent">{content.labels.resumeCta}</span>
+                </a>
               </nav>
               <SocialLinks links={content.socialLinks} size="sm" />
             </div>

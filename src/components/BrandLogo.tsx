@@ -8,7 +8,7 @@ type BrandLogoProps = {
 
 function BrandLogo({ variant = 'full', className = '' }: BrandLogoProps) {
   const src = variant === 'mark' ? markLogo : wordmarkLogo;
-  const alt = variant === 'mark' ? 'Jamshid Jalolov logo mark' : 'Jamshid Jalolov logo';
+  const alt = variant === 'mark' ? 'Jalolov Jamshid logo mark' : 'Jalolov Jamshid logo';
 
   return (
     <img
