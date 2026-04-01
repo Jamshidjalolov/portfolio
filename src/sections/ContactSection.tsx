@@ -22,6 +22,8 @@ type FormState = {
   message: string;
 };
 
+type SubmissionState = 'idle' | 'submitting' | 'success' | 'error';
+
 const initialFormState: FormState = {
   name: '',
   email: '',
@@ -32,14 +34,47 @@ type ContactSectionProps = {
   locale: Locale;
 };
 
+function buildMailtoHref(email: string, formState: FormState, locale: Locale) {
+  const subject =
+    locale === 'uz'
+      ? `Portfolio orqali murojaat: ${formState.name}`
+      : `Portfolio inquiry from ${formState.name}`;
+  const body =
+    locale === 'uz'
+      ? `Ism: ${formState.name}\nEmail: ${formState.email}\n\nXabar:\n${formState.message}`
+      : `Name: ${formState.name}\nEmail: ${formState.email}\n\nMessage:\n${formState.message}`;
+
+  return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function getMailtoFallbackMessage(locale: Locale) {
+  return locale === 'uz'
+    ? 'Server emaili sozlanmagan. Email oynasi ochildi, xabarni shu yerdan yuborishingiz mumkin.'
+    : 'Server email is not configured. Your email client was opened so you can send the message from there.';
+}
+
+function getLocalApiErrorMessage(locale: Locale) {
+  return locale === 'uz'
+    ? "Local holatda `/api/contact` topilmadi. Email oynasi ochildi. `npm run dev` faqat Vite frontendni ishga tushiradi, API uchun `vercel dev` yoki deploy kerak."
+    : 'The `/api/contact` route was not found locally. Your email client was opened. `npm run dev` only runs the Vite frontend, so use `vercel dev` or a deployment for the API.';
+}
+
+function getNetworkErrorMessage(locale: Locale) {
+  return locale === 'uz'
+    ? "Serverga ulanib bo'lmadi. Email oynasi ochildi. Agar local ishlatayotgan bo'lsangiz, API bilan birga ishlaydigan muhit kerak."
+    : 'The app could not reach the server. Your email client was opened. If you are testing locally, you need an environment that runs the API alongside the frontend.';
+}
+
 function ContactSection({ locale }: ContactSectionProps) {
   const content = portfolioContent[locale];
   const [formState, setFormState] = useState<FormState>(initialFormState);
-  const [submitted, setSubmitted] = useState(false);
+  const [submissionState, setSubmissionState] = useState<SubmissionState>('idle');
+  const [feedbackMessage, setFeedbackMessage] = useState('');
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
-    setSubmitted(false);
+    setSubmissionState('idle');
+    setFeedbackMessage('');
 
     setFormState((current) => ({
       ...current,
@@ -47,21 +82,69 @@ function ContactSection({ locale }: ContactSectionProps) {
     }));
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const subject =
-      locale === 'uz'
-        ? `Portfolio orqali murojaat: ${formState.name}`
-        : `Portfolio inquiry from ${formState.name}`;
-    const body =
-      locale === 'uz'
-        ? `Ism: ${formState.name}%0AEmail: ${formState.email}%0A%0AXabar:%0A${encodeURIComponent(formState.message)}`
-        : `Name: ${formState.name}%0AEmail: ${formState.email}%0A%0AMessage:%0A${encodeURIComponent(formState.message)}`;
+    if (submissionState === 'submitting') {
+      return;
+    }
 
-    window.location.href = `mailto:${content.profile.email}?subject=${encodeURIComponent(subject)}&body=${body}`;
-    setSubmitted(true);
-    setFormState(initialFormState);
+    setSubmissionState('submitting');
+    setFeedbackMessage('');
+
+    try {
+      const mailtoHref = buildMailtoHref(content.profile.email, formState, locale);
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formState,
+          locale,
+        }),
+      });
+
+      const contentType = response.headers.get('content-type') || '';
+      const isJsonResponse = contentType.includes('application/json');
+      const result = isJsonResponse ? ((await response.json().catch(() => null)) as { message?: string } | null) : null;
+      const responseText = !isJsonResponse ? await response.text().catch(() => '') : '';
+
+      if (!response.ok) {
+        if (response.status === 500 && result?.message?.includes('email')) {
+          window.location.href = mailtoHref;
+          setSubmissionState('success');
+          setFeedbackMessage(getMailtoFallbackMessage(locale));
+          setFormState(initialFormState);
+          return;
+        }
+
+        if (response.status === 404 || contentType.includes('text/html')) {
+          window.location.href = mailtoHref;
+          setSubmissionState('success');
+          setFeedbackMessage(getLocalApiErrorMessage(locale));
+          setFormState(initialFormState);
+          return;
+        }
+
+        throw new Error(result?.message || responseText || content.contact.errorText);
+      }
+
+      setSubmissionState('success');
+      setFeedbackMessage(result?.message || content.contact.successText);
+      setFormState(initialFormState);
+    } catch (error) {
+      if (error instanceof TypeError) {
+        window.location.href = buildMailtoHref(content.profile.email, formState, locale);
+        setSubmissionState('success');
+        setFeedbackMessage(getNetworkErrorMessage(locale));
+        setFormState(initialFormState);
+        return;
+      }
+
+      setSubmissionState('error');
+      setFeedbackMessage(error instanceof Error ? error.message : content.contact.errorText);
+    }
   };
 
   return (
@@ -141,6 +224,7 @@ function ContactSection({ locale }: ContactSectionProps) {
                     <span className="mb-2 block text-sm font-medium text-slate-200">{content.contact.nameLabel}</span>
                     <input
                       className="input-field"
+                      disabled={submissionState === 'submitting'}
                       name="name"
                       onChange={handleChange}
                       placeholder={content.contact.namePlaceholder}
@@ -154,6 +238,7 @@ function ContactSection({ locale }: ContactSectionProps) {
                     <span className="mb-2 block text-sm font-medium text-slate-200">{content.contact.emailLabel}</span>
                     <input
                       className="input-field"
+                      disabled={submissionState === 'submitting'}
                       name="email"
                       onChange={handleChange}
                       placeholder={content.contact.emailPlaceholder}
@@ -168,6 +253,7 @@ function ContactSection({ locale }: ContactSectionProps) {
                   <span className="mb-2 block text-sm font-medium text-slate-200">{content.contact.messageLabel}</span>
                   <textarea
                     className="input-field min-h-[180px] resize-y"
+                    disabled={submissionState === 'submitting'}
                     name="message"
                     onChange={handleChange}
                     placeholder={content.contact.messagePlaceholder}
@@ -178,14 +264,31 @@ function ContactSection({ locale }: ContactSectionProps) {
 
                 <div className="panel-soft flex flex-col gap-4 rounded-[24px] p-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="max-w-xl text-sm leading-7 text-slate-400">{content.contact.helperText}</div>
-                  <Button className="w-full justify-center sm:min-w-[168px] sm:w-auto" showArrow type="submit">
-                    {content.contact.submitLabel}
+                  <Button
+                    className="w-full justify-center sm:min-w-[168px] sm:w-auto"
+                    disabled={submissionState === 'submitting'}
+                    showArrow
+                    type="submit"
+                  >
+                    {submissionState === 'submitting' ? content.contact.sendingText : content.contact.submitLabel}
                   </Button>
                 </div>
 
-                {submitted ? (
-                  <div className="rounded-2xl border border-emerald-300/20 bg-emerald-300/[0.08] px-4 py-3 text-sm text-emerald-100">
-                    {content.contact.successText}
+                {submissionState === 'success' && feedbackMessage ? (
+                  <div
+                    aria-live="polite"
+                    className="rounded-2xl border border-emerald-300/20 bg-emerald-300/[0.08] px-4 py-3 text-sm text-emerald-100"
+                  >
+                    {feedbackMessage}
+                  </div>
+                ) : null}
+
+                {submissionState === 'error' && feedbackMessage ? (
+                  <div
+                    aria-live="polite"
+                    className="rounded-2xl border border-rose-300/20 bg-rose-300/[0.08] px-4 py-3 text-sm text-rose-100"
+                  >
+                    {feedbackMessage}
                   </div>
                 ) : null}
               </form>

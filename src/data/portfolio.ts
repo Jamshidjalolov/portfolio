@@ -90,7 +90,9 @@ type ContactContent = {
   messagePlaceholder: string;
   helperText: string;
   submitLabel: string;
+  sendingText: string;
   successText: string;
+  errorText: string;
   methods: ContactMethod[];
 };
 
@@ -350,9 +352,11 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
       emailPlaceholder: 'emailingiz@gmail.com',
       messageLabel: 'Xabar',
       messagePlaceholder: "Loyihangiz haqida qisqacha yozing.",
-      helperText: "Xabar yuborilganda email oynasi ochiladi. Istasangiz to'g'ridan-to'g'ri telegram orqali ham yozishingiz mumkin.",
+      helperText: "Xabar yuborilganda u server orqali mening emailimga yuboriladi.",
       submitLabel: 'Xabar yuborish',
-      successText: 'Email oynasi ochildi. Xabaringizni yuborishni davom ettirishingiz mumkin.',
+      sendingText: 'Yuborilmoqda...',
+      successText: 'Xabaringiz muvaffaqiyatli yuborildi. Tez orada siz bilan bog\'lanaman.',
+      errorText: "Xabar yuborilmadi. Keyinroq yana urinib ko'ring yoki to'g'ridan-to'g'ri email/Telegram orqali yozing.",
       methods: [
         {
           label: 'Email',
@@ -603,9 +607,11 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
       emailPlaceholder: 'your@email.com',
       messageLabel: 'Message',
       messagePlaceholder: 'Tell me a bit about your project.',
-      helperText: 'Submitting opens your email client. You can also contact me directly through Telegram.',
+      helperText: 'When submitted, the message is forwarded through the server to my email.',
       submitLabel: 'Send Message',
-      successText: 'Your email client was opened. You can continue sending your message there.',
+      sendingText: 'Sending...',
+      successText: 'Your message was sent successfully. I will get back to you soon.',
+      errorText: 'The message could not be sent. Please try again later or contact me directly by email or Telegram.',
       methods: [
         {
           label: 'Email',
