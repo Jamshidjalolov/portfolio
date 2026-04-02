@@ -9,6 +9,8 @@ import SocialLinks from '../components/SocialLinks';
 import { portfolioContent } from '../data/portfolio';
 import { Locale } from '../types';
 
+const EMAILJS_ENDPOINT = 'https://api.emailjs.com/api/v1.0/email/send';
+
 const iconMap = {
   mail: Mail,
   'map-pin': MapPin,
@@ -34,6 +36,14 @@ type ContactSectionProps = {
   locale: Locale;
 };
 
+function getEmailJsConfig() {
+  return {
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY?.trim() || '',
+    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID?.trim() || '',
+    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID?.trim() || '',
+  };
+}
+
 function buildMailtoHref(email: string, formState: FormState, locale: Locale) {
   const subject =
     locale === 'uz'
@@ -49,20 +59,28 @@ function buildMailtoHref(email: string, formState: FormState, locale: Locale) {
 
 function getMailtoFallbackMessage(locale: Locale) {
   return locale === 'uz'
-    ? 'Server emaili sozlanmagan. Email oynasi ochildi, xabarni shu yerdan yuborishingiz mumkin.'
-    : 'Server email is not configured. Your email client was opened so you can send the message from there.';
+    ? 'Email oynasi ochildi, xabarni shu yerdan yuborishingiz mumkin.'
+    : 'Your email client was opened so you can send the message from there.';
 }
 
-function getLocalApiErrorMessage(locale: Locale) {
+function getMissingEmailJsMessage(locale: Locale) {
   return locale === 'uz'
-    ? "Local holatda `/api/contact` topilmadi. Email oynasi ochildi. `npm run dev` faqat Vite frontendni ishga tushiradi, API uchun `vercel dev` yoki deploy kerak."
-    : 'The `/api/contact` route was not found locally. Your email client was opened. `npm run dev` only runs the Vite frontend, so use `vercel dev` or a deployment for the API.';
+    ? "EmailJS sozlanmagan. `VITE_EMAILJS_PUBLIC_KEY`, `VITE_EMAILJS_SERVICE_ID` va `VITE_EMAILJS_TEMPLATE_ID` ni kiriting. Email oynasi ochildi."
+    : 'EmailJS is not configured. Add `VITE_EMAILJS_PUBLIC_KEY`, `VITE_EMAILJS_SERVICE_ID`, and `VITE_EMAILJS_TEMPLATE_ID`. Your email client was opened.';
 }
 
 function getNetworkErrorMessage(locale: Locale) {
   return locale === 'uz'
-    ? "Serverga ulanib bo'lmadi. Email oynasi ochildi. Agar local ishlatayotgan bo'lsangiz, API bilan birga ishlaydigan muhit kerak."
-    : 'The app could not reach the server. Your email client was opened. If you are testing locally, you need an environment that runs the API alongside the frontend.';
+    ? "EmailJS serveriga ulanib bo'lmadi. Email oynasi ochildi."
+    : 'The app could not reach EmailJS. Your email client was opened.';
+}
+
+function getDeliveryErrorMessage(locale: Locale, detail: string) {
+  if (locale === 'uz') {
+    return detail ? `EmailJS xatolik berdi: ${detail}` : "EmailJS orqali yuborishda xatolik yuz berdi.";
+  }
+
+  return detail ? `EmailJS returned an error: ${detail}` : 'Something went wrong while sending through EmailJS.';
 }
 
 function ContactSection({ locale }: ContactSectionProps) {
@@ -94,44 +112,54 @@ function ContactSection({ locale }: ContactSectionProps) {
 
     try {
       const mailtoHref = buildMailtoHref(content.profile.email, formState, locale);
-      const response = await fetch('/api/contact', {
+      const emailJsConfig = getEmailJsConfig();
+
+      if (!emailJsConfig.publicKey || !emailJsConfig.serviceId || !emailJsConfig.templateId) {
+        window.location.href = mailtoHref;
+        setSubmissionState('success');
+        setFeedbackMessage(getMissingEmailJsMessage(locale));
+        setFormState(initialFormState);
+        return;
+      }
+
+      const sentAt = new Date().toLocaleString(locale === 'uz' ? 'uz-UZ' : 'en-US', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      });
+
+      const response = await fetch(EMAILJS_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...formState,
-          locale,
+          service_id: emailJsConfig.serviceId,
+          template_id: emailJsConfig.templateId,
+          user_id: emailJsConfig.publicKey,
+          template_params: {
+            name: formState.name,
+            from_name: formState.name,
+            email: formState.email,
+            reply_to: formState.email,
+            message: formState.message,
+            sent_at: sentAt,
+            locale,
+          },
         }),
       });
 
-      const contentType = response.headers.get('content-type') || '';
-      const isJsonResponse = contentType.includes('application/json');
-      const result = isJsonResponse ? ((await response.json().catch(() => null)) as { message?: string } | null) : null;
-      const responseText = !isJsonResponse ? await response.text().catch(() => '') : '';
+      const responseText = await response.text().catch(() => '');
 
       if (!response.ok) {
-        if (response.status === 500 && result?.message?.includes('email')) {
-          window.location.href = mailtoHref;
-          setSubmissionState('success');
-          setFeedbackMessage(getMailtoFallbackMessage(locale));
-          setFormState(initialFormState);
-          return;
-        }
-
-        if (response.status === 404 || contentType.includes('text/html')) {
-          window.location.href = mailtoHref;
-          setSubmissionState('success');
-          setFeedbackMessage(getLocalApiErrorMessage(locale));
-          setFormState(initialFormState);
-          return;
-        }
-
-        throw new Error(result?.message || responseText || content.contact.errorText);
+        window.location.href = mailtoHref;
+        setSubmissionState('success');
+        setFeedbackMessage(getDeliveryErrorMessage(locale, responseText));
+        setFormState(initialFormState);
+        return;
       }
 
       setSubmissionState('success');
-      setFeedbackMessage(result?.message || content.contact.successText);
+      setFeedbackMessage(content.contact.successText);
       setFormState(initialFormState);
     } catch (error) {
       if (error instanceof TypeError) {
