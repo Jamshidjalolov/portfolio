@@ -7,12 +7,11 @@ import {
   SocialLink,
   Stat,
 } from '../types';
-import atlasPreview from '../assets/projects/atlas-preview.svg';
+import barbershopPreview from '../assets/projects/barbershop-preview.svg';
 import jamshidAvatar from '../assets/profile/jamshid-avatar.svg';
+import kursFrontendPreview from '../assets/projects/kurs-frontend-preview.svg';
 import kursTizimiPreview from '../assets/projects/kurs-tizimi-preview.svg';
 import medicalPreview from '../assets/projects/medical-preview.jpg';
-import monarchPreview from '../assets/projects/monarch-preview.svg';
-import nexaPreview from '../assets/projects/nexa-preview.svg';
 import webGamePreview from '../assets/projects/web-game-preview.svg';
 
 type ProfileContent = {
@@ -260,6 +259,30 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
       demoLabel: 'Demo',
       items: [
         {
+          title: 'Barbershop',
+          description:
+            "Barbershop uchun zamonaviy landing page. Xizmatlar, ustalar, bron qilish chaqiruvi va mobilga mos premium ko'rinish bitta oqimda yig'ilgan.",
+          category: 'Brand',
+          previewLabel: 'Barbershop landing sahifasi',
+          image: barbershopPreview,
+          tech: ['React', 'Vite', 'Tailwind CSS', 'Responsive UI'],
+          liveUrl: 'https://barber-fron-gilt.vercel.app/',
+          accent: '#f59e0b',
+          metrics: ['Xizmatlar va brand taqdimoti', 'Mobilga mos booking CTA'],
+        },
+        {
+          title: 'Kurs Frontend Tizim',
+          description:
+            "Frontend yo'nalishidagi kurs platformasi uchun tayyorlangan landing page. Kurs bloklari, foydalanuvchini yo'naltiruvchi sectionlar va zamonaviy responsive ko'rinish bir tizimda jamlangan.",
+          category: 'Product',
+          previewLabel: "Frontend kurs platformasi",
+          image: kursFrontendPreview,
+          tech: ['React', 'Vite', 'Tailwind CSS', 'Responsive UI'],
+          liveUrl: 'https://kurs-frontend-tizim.vercel.app/',
+          accent: '#38bdf8',
+          metrics: ['Kurs bo\'limlari va lesson flow', 'Responsive ta\'lim landing page'],
+        },
+        {
           title: 'Kurs Tizimi',
           description:
             "Online kurs platformasi uchun landing page va foydalanuvchi oqimi. Login, register, kurslar ro'yxati va course detail sahifalari bitta tizimda ishlangan.",
@@ -295,45 +318,6 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
           githubUrl: 'https://github.com/Jamshidjalolov/web-game',
           accent: '#38bdf8',
           metrics: ["Interaktiv o'yin oqimi", 'Tez va yengil ishlash'],
-        },
-        {
-          title: 'Monarch Studio',
-          description:
-            "Studio brendi uchun tayyorlangan sahifa. Matn, kompozitsiya va harakat bir ritmda ishlaydi.",
-          category: 'Brand',
-          previewLabel: 'Studio landing sahifasi',
-          image: monarchPreview,
-          tech: ['React', 'Tailwind', 'Motion Design', 'Figma'],
-          liveUrl: 'https://example.com/monarch',
-          githubUrl: 'https://github.com/Jamshidjalolov/monarch-studio',
-          accent: '#f59e0b',
-          metrics: ['Matn ritmi', 'Tartibli section flow'],
-        },
-        {
-          title: 'Atlas Commerce',
-          description:
-            "Mahsulot vitrinasi va checkout oqimi uchun mobilga mos e-commerce interfeysi.",
-          category: 'Commerce',
-          previewLabel: "Mahsulot va checkout oqimi",
-          image: atlasPreview,
-          tech: ['React', 'TypeScript', 'Responsive UI', 'Tailwind'],
-          liveUrl: 'https://example.com/atlas',
-          githubUrl: 'https://github.com/Jamshidjalolov/atlas-commerce',
-          accent: '#2dd4bf',
-          metrics: ['Mobil-first katalog', 'Silliq checkout'],
-        },
-        {
-          title: 'Nexa Workspace',
-          description:
-            "SaaS mahsuloti uchun yaratilgan launch sahifa va ilova shell tuzilmasi.",
-          category: 'Product',
-          previewLabel: 'SaaS launch sahifa',
-          image: nexaPreview,
-          tech: ['React', 'TypeScript', 'Tailwind', 'Lucide'],
-          liveUrl: 'https://example.com/nexa',
-          githubUrl: 'https://github.com/Jamshidjalolov/nexa-workspace',
-          accent: '#a78bfa',
-          metrics: ['CTA oqimi', 'Soddalashtirilgan UI'],
         },
       ],
     },
@@ -518,6 +502,30 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
       demoLabel: 'Live Demo',
       items: [
         {
+          title: 'Barbershop',
+          description:
+            'A modern barbershop landing page with service sections, team presentation, booking-focused calls to action, and a premium mobile-ready layout.',
+          category: 'Brand',
+          previewLabel: 'Barbershop landing page',
+          image: barbershopPreview,
+          tech: ['React', 'Vite', 'Tailwind CSS', 'Responsive UI'],
+          liveUrl: 'https://barber-fron-gilt.vercel.app/',
+          accent: '#f59e0b',
+          metrics: ['Service and brand presentation', 'Mobile-ready booking CTA'],
+        },
+        {
+          title: 'Course Frontend System',
+          description:
+            'A frontend-focused course landing page with structured lesson sections, clear user guidance, and a modern responsive layout built for course discovery.',
+          category: 'Product',
+          previewLabel: 'Frontend course platform',
+          image: kursFrontendPreview,
+          tech: ['React', 'Vite', 'Tailwind CSS', 'Responsive UI'],
+          liveUrl: 'https://kurs-frontend-tizim.vercel.app/',
+          accent: '#38bdf8',
+          metrics: ['Course sections and lesson flow', 'Responsive learning landing page'],
+        },
+        {
           title: 'Course System',
           description:
             'A course platform landing and user flow with login, registration, course listing, and course detail pages connected into one learning experience.',
@@ -553,42 +561,6 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
           githubUrl: 'https://github.com/Jamshidjalolov/web-game',
           accent: '#38bdf8',
           metrics: ['Interactive gameplay', 'Fast lightweight flow'],
-        },
-        {
-          title: 'Monarch Studio',
-          description: 'A studio website built around content rhythm, composition, and controlled motion.',
-          category: 'Brand',
-          previewLabel: 'Studio landing page',
-          image: monarchPreview,
-          tech: ['React', 'Tailwind', 'Motion Design', 'Figma'],
-          liveUrl: 'https://example.com/monarch',
-          githubUrl: 'https://github.com/Jamshidjalolov/monarch-studio',
-          accent: '#f59e0b',
-          metrics: ['Content rhythm', 'Structured section flow'],
-        },
-        {
-          title: 'Atlas Commerce',
-          description: 'A mobile-friendly ecommerce interface focused on catalog browsing and checkout flow.',
-          category: 'Commerce',
-          previewLabel: 'Catalog and checkout flow',
-          image: atlasPreview,
-          tech: ['React', 'TypeScript', 'Responsive UI', 'Tailwind'],
-          liveUrl: 'https://example.com/atlas',
-          githubUrl: 'https://github.com/Jamshidjalolov/atlas-commerce',
-          accent: '#2dd4bf',
-          metrics: ['Mobile-first catalog', 'Smooth checkout'],
-        },
-        {
-          title: 'Nexa Workspace',
-          description: 'A launch site and app shell built for a SaaS-style product presentation.',
-          category: 'Product',
-          previewLabel: 'SaaS launch page',
-          image: nexaPreview,
-          tech: ['React', 'TypeScript', 'Tailwind', 'Lucide'],
-          liveUrl: 'https://example.com/nexa',
-          githubUrl: 'https://github.com/Jamshidjalolov/nexa-workspace',
-          accent: '#a78bfa',
-          metrics: ['CTA flow', 'Simplified UI'],
         },
       ],
     },
