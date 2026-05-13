@@ -7,11 +7,11 @@ import {
   SocialLink,
   Stat,
 } from '../types';
-import barbershopPreview from '../assets/projects/barbershop-preview.svg';
 import jamshidAvatar from '../assets/profile/jamshid-avatar.svg';
 import kursFrontendPreview from '../assets/projects/kurs-frontend-preview.svg';
 import kursTizimiPreview from '../assets/projects/kurs-tizimi-preview.svg';
 import medicalPreview from '../assets/projects/medical-preview.jpg';
+import barberPreview from '../rasm/barber.jpg';
 import webGamePreview from '../assets/projects/web-game-preview.svg';
 
 type ProfileContent = {
@@ -264,7 +264,7 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
             "Barbershop uchun zamonaviy landing page. Xizmatlar, ustalar, bron qilish chaqiruvi va mobilga mos premium ko'rinish bitta oqimda yig'ilgan.",
           category: 'Brand',
           previewLabel: 'Barbershop landing sahifasi',
-          image: barbershopPreview,
+          image: barberPreview,
           tech: ['React', 'Vite', 'Tailwind CSS', 'Responsive UI'],
           liveUrl: 'https://barber-fron-gilt.vercel.app/',
           accent: '#f59e0b',
@@ -507,7 +507,7 @@ export const portfolioContent: Record<Locale, PortfolioLocaleContent> = {
             'A modern barbershop landing page with service sections, team presentation, booking-focused calls to action, and a premium mobile-ready layout.',
           category: 'Brand',
           previewLabel: 'Barbershop landing page',
-          image: barbershopPreview,
+          image: barberPreview,
           tech: ['React', 'Vite', 'Tailwind CSS', 'Responsive UI'],
           liveUrl: 'https://barber-fron-gilt.vercel.app/',
           accent: '#f59e0b',
